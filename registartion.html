@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Form</title>
+    <style>
+        body{
+            margin:0;
+            font-family: Arial, sans-serif;
+            background-color:#f2f2f2;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            height:100vh;
+        }
+
+        .box{
+            width:350px;
+            padding:20px;
+            border:2px solid black;
+            border-radius:10px;
+            background-color:white;
+            text-align:center;
+            box-shadow:0 0 10px gray;
+        }
+
+        input{
+            width:90%;
+            padding:8px;
+            margin:8px 0;
+        }
+
+        .gender{
+            text-align:left;
+            margin-left:15px;
+        }
+
+        button{
+            padding:8px 20px;
+            margin:10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <h2>Registration Form</h2>
+
+    <form>
+        <input type="text" placeholder="First Name"><br>
+
+        <input type="text" placeholder="Last Name"><br>
+
+        <input type="text" placeholder="Roll No"><br>
+
+        <input type="email" placeholder="Email ID"><br>
+
+        <div class="gender">
+            <b>Gender:</b><br>
+            <input type="radio" name="gender"> Male
+            <input type="radio" name="gender"> Female
+            <input type="radio" name="gender"> Other
+        </div>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </form>
+</div>
+
+</body>
+</html>
