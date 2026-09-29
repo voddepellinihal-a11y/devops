@@ -46,20 +46,21 @@
     <h2>Registration Form</h2>
 
     <form>
-        <input type="text" placeholder="First Name"><br>
+        <label>First Name: <input type="text" name="firstName" placeholder="First Name" required></label><br>
 
-        <input type="text" placeholder="Last Name"><br>
+        <label>Last Name: <input type="text" name="lastName" placeholder="Last Name" required></label><br>
 
-        <input type="text" placeholder="Roll No"><br>
+        <label>Roll No: <input type="text" name="rollNo" placeholder="Roll No" required></label><br>
 
-        <input type="email" placeholder="Email ID"><br>
-	<input type="number" placeholder="mobile no"><br>
+        <label>Email ID: <input type="email" name="email" placeholder="Email ID" required></label><br>
+        <label>Mobile No: <input type="tel" name="mobile" placeholder="Mobile No" pattern="[0-9]{10}" required></label><br>
+        <label>Date of Birth: <input type="date" name="dob" required></label><br>
 
         <div class="gender">
             <b>Gender:</b><br>
-            <input type="radio" name="gender"> Male
-            <input type="radio" name="gender"> Female
-            <input type="radio" name="gender"> Other
+            <label><input type="radio" name="gender" value="male" required> Male</label>
+            <label><input type="radio" name="gender" value="female"> Female</label>
+            <label><input type="radio" name="gender" value="other"> Other</label>
         </div>
 
         <button type="submit">Submit</button>
