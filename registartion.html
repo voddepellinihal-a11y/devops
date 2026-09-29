@@ -23,10 +23,44 @@
             box-shadow:0 0 10px gray;
         }
 
+        .form-group {
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 4px;
+            font-weight: bold;
+        }
+
         input{
             width:90%;
             padding:8px;
             margin:8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
+        }
+
+        input[aria-invalid="true"] {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .error-message[aria-live="polite"] {
+            display: block;
         }
 
         .gender{
@@ -34,9 +68,45 @@
             margin-left:15px;
         }
 
+        .gender label {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-right: 12px;
+            cursor: pointer;
+        }
+
         button{
             padding:8px 20px;
             margin:10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .btn-submit {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-reset {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #545b62;
+        }
+
+        .success-message {
+            color: #28a745;
+            margin-top: 16px;
+            display: none;
         }
     </style>
 </head>
@@ -45,27 +115,148 @@
 <div class="box">
     <h2>Registration Form</h2>
 
-    <form>
-        <input type="text" placeholder="First Name"><br>
-
-        <input type="text" placeholder="Last Name"><br>
-
-        <input type="text" placeholder="Roll No"><br>
-
-        <input type="email" placeholder="Email ID"><br>
-	<input type="number" placeholder="mobile no"><br>
-
-        <div class="gender">
-            <b>Gender:</b><br>
-            <input type="radio" name="gender"> Male
-            <input type="radio" name="gender"> Female
-            <input type="radio" name="gender"> Other
+    <form id="registrationForm" novalidate>
+        <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required aria-required="true" aria-describedby="firstNameError">
+            <span id="firstNameError" class="error-message" aria-live="polite"></span>
         </div>
 
-        <button type="submit">Submit</button>
-        <button type="reset">Reset</button>
+        <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required aria-required="true" aria-describedby="lastNameError">
+            <span id="lastNameError" class="error-message" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="rollNo">Roll No</label>
+            <input type="text" id="rollNo" name="rollNo" placeholder="Enter roll number" required aria-required="true" aria-describedby="rollNoError">
+            <span id="rollNoError" class="error-message" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email ID</label>
+            <input type="email" id="email" name="email" placeholder="Enter email address" required aria-required="true" aria-describedby="emailError">
+            <span id="emailError" class="error-message" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group">
+            <label for="mobile">Mobile No</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="Enter 10-digit mobile number" pattern="[0-9]{10}" required aria-required="true" aria-describedby="mobileError">
+            <span id="mobileError" class="error-message" aria-live="polite"></span>
+        </div>
+
+        <div class="form-group gender">
+            <label>Gender</label>
+            <span id="genderError" class="error-message" aria-live="polite"></span>
+            <label><input type="radio" name="gender" value="male" required> Male</label>
+            <label><input type="radio" name="gender" value="female"> Female</label>
+            <label><input type="radio" name="gender" value="other"> Other</label>
+        </div>
+
+        <button type="submit" class="btn-submit">Submit</button>
+        <button type="reset" class="btn-reset">Reset</button>
+
+        <div id="successMessage" class="success-message" aria-live="polite"></div>
     </form>
 </div>
+
+<script>
+(function() {
+    'use strict';
+
+    const form = document.getElementById('registrationForm');
+    const successMessage = document.getElementById('successMessage');
+
+    const validators = {
+        firstName: (value) => value.trim().length >= 2 ? '' : 'First name must be at least 2 characters',
+        lastName: (value) => value.trim().length >= 2 ? '' : 'Last name must be at least 2 characters',
+        rollNo: (value) => value.trim().length > 0 ? '' : 'Roll number is required',
+        email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value) ? '' : 'Enter a valid email address',
+        mobile: (value) => /^[0-9]{10}$/.test(value) ? '' : 'Enter a valid 10-digit mobile number',
+        gender: (form) => form.querySelector('input[name="gender"]:checked') ? '' : 'Please select a gender'
+    };
+
+    function showError(fieldName, message) {
+        const input = form.querySelector('[name="' + fieldName + '"]');
+        const errorSpan = document.getElementById(fieldName + 'Error');
+        if (input) input.setAttribute('aria-invalid', 'true');
+        if (errorSpan) errorSpan.textContent = message;
+    }
+
+    function clearError(fieldName) {
+        const input = form.querySelector('[name="' + fieldName + '"]');
+        const errorSpan = document.getElementById(fieldName + 'Error');
+        if (input) input.removeAttribute('aria-invalid');
+        if (errorSpan) errorSpan.textContent = '';
+    }
+
+    function validateField(fieldName) {
+        const input = form.querySelector('[name="' + fieldName + '"]');
+        if (!input) return true;
+
+        let value = input.value;
+        if (input.type === 'radio') {
+            const checked = form.querySelector('input[name="' + fieldName + '"]:checked');
+            if (!checked) {
+                showError(fieldName, validators[fieldName](form));
+                return false;
+            }
+            value = checked.value;
+        }
+
+        const validator = validators[fieldName];
+        if (validator) {
+            const error = validator(value, form);
+            if (error) {
+                showError(fieldName, error);
+                return false;
+            }
+        }
+        clearError(fieldName);
+        return true;
+    }
+
+    function validateForm() {
+        let isValid = true;
+        Object.keys(validators).forEach(field => {
+            if (!validateField(field)) isValid = false;
+        });
+        return isValid;
+    }
+
+    Object.keys(validators).forEach(field => {
+        const inputs = form.querySelectorAll('[name="' + field + '"]');
+        inputs.forEach(input => {
+            input.addEventListener('blur', () => validateField(field));
+            input.addEventListener('input', () => {
+                if (input.getAttribute('aria-invalid') === 'true') {
+                    validateField(field);
+                }
+            });
+        });
+    });
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (validateForm()) {
+            successMessage.textContent = 'Registration submitted successfully!';
+            successMessage.style.display = 'block';
+            form.reset();
+            setTimeout(() => { successMessage.style.display = 'none'; }, 5000);
+        } else {
+            successMessage.style.display = 'none';
+            const firstInvalid = form.querySelector('[aria-invalid="true"]');
+            if (firstInvalid) firstInvalid.focus();
+        }
+    });
+
+    form.addEventListener('reset', function() {
+        Object.keys(validators).forEach(field => clearError(field));
+        successMessage.style.display = 'none';
+    });
+})();
+</script>
 
 </body>
 </html>
