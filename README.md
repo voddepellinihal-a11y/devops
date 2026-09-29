@@ -136,7 +136,7 @@ These **must be configured manually** in Jenkins:
 | Member | GitHub Username | Feature Branch |
 |--------|-----------------|----------------|
 | Amogh | Amogh-07 | feature/amogh |
-| Varala Manichandrasai | varalamanichandrasai223-wb | feature/varalamanichandrasai |
+| Varala Manichandrasai | varalamanichandrasai223-wq | feature/varalamanichandrasai |
 | Yashwanth | Yashwanth7065 | feature/yashwanth |
 | Admin | voddepellinihal-a11y | feature/admin |
 
